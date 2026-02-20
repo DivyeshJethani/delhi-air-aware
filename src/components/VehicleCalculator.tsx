@@ -35,17 +35,14 @@ export default function VehicleCalculator() {
   };
 
   return (
-    <section id="vehicle" className="py-24 relative">
-      <div className="absolute top-1/2 right-0 w-64 h-64 rounded-full blur-3xl opacity-10 pointer-events-none"
-        style={{ background: "hsl(25 95% 53%)" }} />
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="vehicle" className="py-24 bg-muted/30 border-t border-border">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-aqi-unhealthy/10 border border-aqi-unhealthy/20 mb-4">
-            <Car className="w-3 h-3 text-aqi-unhealthy" />
-            <span className="text-aqi-unhealthy text-xs font-semibold uppercase tracking-wider">Vehicle Impact</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 mb-4">
+            <Car className="w-3 h-3 text-orange-500" />
+            <span className="text-orange-600 text-xs font-semibold uppercase tracking-wider">Vehicle Impact</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 text-foreground">
             Vehicle <span className="gradient-text">Impact Calculator</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
@@ -55,13 +52,13 @@ export default function VehicleCalculator() {
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Calculator input */}
-          <div className="glass-card rounded-2xl p-6 flex flex-col gap-6">
-            <h3 className="font-display font-semibold text-lg">Your Vehicles</h3>
+          <div className="glass-card rounded-2xl p-6 flex flex-col gap-6 shadow-sm">
+            <h3 className="font-display font-semibold text-lg text-foreground">Your Vehicles</h3>
 
             {VEHICLES.map(({ type, icon: Icon, label, color }) => (
               <div key={type} className="flex items-center justify-between p-4 rounded-xl border border-border bg-muted/20">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${color}20`, border: `1px solid ${color}40` }}>
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: `${color}15`, border: `1px solid ${color}30` }}>
                     <Icon className="w-4 h-4" style={{ color }} />
                   </div>
                   <span className="text-sm font-medium text-foreground">{label}</span>
@@ -100,29 +97,29 @@ export default function VehicleCalculator() {
           {/* Results */}
           <div className="flex flex-col gap-4">
             {/* CO2 output */}
-            <div className="glass-card rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6 shadow-sm">
               <h3 className="font-display font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-5">Your Estimated Emissions</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-muted/30 rounded-xl p-4 text-center">
-                  <AlertTriangle className="w-5 h-5 text-aqi-unhealthy mx-auto mb-2" />
+                <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 text-center">
+                  <AlertTriangle className="w-5 h-5 text-orange-500 mx-auto mb-2" />
                   <p className="text-3xl font-bold font-display text-foreground">{totalCO2Daily.toFixed(1)}</p>
                   <p className="text-xs text-muted-foreground">kg CO₂ / day</p>
                 </div>
-                <div className="bg-muted/30 rounded-xl p-4 text-center">
-                  <TrendingDown className="w-5 h-5 text-aqi-very-unhealthy mx-auto mb-2" />
+                <div className="bg-red-50 border border-red-100 rounded-xl p-4 text-center">
+                  <TrendingDown className="w-5 h-5 text-red-500 mx-auto mb-2" />
                   <p className="text-3xl font-bold font-display text-foreground">{(totalCO2Yearly / 1000).toFixed(1)}</p>
                   <p className="text-xs text-muted-foreground">tonnes CO₂ / year</p>
                 </div>
               </div>
-              <div className="mt-4 p-3 rounded-xl border border-aqi-very-unhealthy/30 bg-aqi-very-unhealthy/10">
+              <div className="mt-4 p-3 rounded-xl border border-red-200 bg-red-50">
                 <p className="text-xs text-center text-foreground">
-                  Your vehicles contribute approx. <span className="text-aqi-very-unhealthy font-bold">+{aqiImpact} AQI points</span> to your area daily
+                  Your vehicles contribute approx. <span className="text-red-600 font-bold">+{aqiImpact} AQI points</span> to your area daily
                 </p>
               </div>
             </div>
 
             {/* Emission bars */}
-            <div className="glass-card rounded-xl p-5">
+            <div className="glass-card rounded-xl p-5 shadow-sm">
               <h4 className="text-sm font-medium text-muted-foreground mb-4">Emission Breakdown</h4>
               {VEHICLES.map(({ type, label, co2PerKm, color }) => {
                 const val = counts[type] * co2PerKm * kmPerDay / 1000;
@@ -142,13 +139,13 @@ export default function VehicleCalculator() {
             </div>
 
             {/* Strategies */}
-            <div className="glass-card rounded-xl p-5">
+            <div className="glass-card rounded-xl p-5 shadow-sm">
               <h4 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
                 <Leaf className="w-4 h-4 text-primary" /> Reduction Strategies
               </h4>
               <div className="grid grid-cols-2 gap-2">
                 {STRATEGIES.map(({ icon, title, desc, saving }) => (
-                  <div key={title} className="bg-muted/20 rounded-lg p-3 border border-border hover:border-primary/30 transition-colors">
+                  <div key={title} className="bg-muted/40 rounded-lg p-3 border border-border hover:border-primary/30 transition-colors">
                     <span className="text-lg">{icon}</span>
                     <p className="text-xs font-semibold text-foreground mt-1">{title}</p>
                     <p className="text-[10px] text-muted-foreground mt-0.5 leading-tight">{desc}</p>

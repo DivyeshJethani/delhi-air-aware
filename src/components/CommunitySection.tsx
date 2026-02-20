@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Users, Flag, Star, Award, ChevronUp, Send } from "lucide-react";
-import connaughtPlaceImg from "@/assets/connaught-place.jpg";
 
 const LEADERBOARD = [
   { rank: 1, name: "Rohini Residents Forum", score: 2840, badge: "🏆", reports: 128 },
@@ -30,23 +29,14 @@ export default function CommunitySection() {
   };
 
   return (
-    <section id="community" className="py-24 relative">
-      {/* Background image strip */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img src={connaughtPlaceImg} alt="Delhi community" className="w-full h-full object-cover opacity-5" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
-      </div>
-
-      <div className="absolute top-1/4 right-1/4 w-72 h-72 rounded-full blur-3xl opacity-10 pointer-events-none"
-        style={{ background: "hsl(158 64% 42%)" }} />
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="community" className="py-24 bg-background border-t border-border">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
             <Users className="w-3 h-3 text-primary" />
             <span className="text-primary text-xs font-semibold uppercase tracking-wider">Community</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 text-foreground">
             Fight Pollution <span className="gradient-text">Together</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
@@ -56,15 +46,15 @@ export default function CommunitySection() {
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Report Pollution */}
-          <div className="glass-card rounded-2xl p-6">
-            <h3 className="font-display font-semibold text-lg mb-2 flex items-center gap-2">
-              <Flag className="w-5 h-5 text-aqi-unhealthy" /> Report Pollution Incident
+          <div className="glass-card rounded-2xl p-6 shadow-sm">
+            <h3 className="font-display font-semibold text-lg mb-2 flex items-center gap-2 text-foreground">
+              <Flag className="w-5 h-5 text-orange-500" /> Report Pollution Incident
             </h3>
             <p className="text-muted-foreground text-sm mb-6">Help the community by flagging pollution sources near you.</p>
 
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-8 gap-4">
-                <div className="w-16 h-16 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
                   <Award className="w-8 h-8 text-primary" />
                 </div>
                 <p className="font-display font-semibold text-foreground">Report Submitted! +50 Green Points</p>
@@ -82,8 +72,8 @@ export default function CommunitySection() {
                         onClick={() => setReportType(t)}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
                           reportType === t
-                            ? "bg-aqi-unhealthy/20 border-aqi-unhealthy/50 text-aqi-unhealthy"
-                            : "border-border text-muted-foreground hover:border-aqi-unhealthy/30"
+                            ? "bg-orange-50 border-orange-300 text-orange-600"
+                            : "border-border text-muted-foreground hover:border-orange-200"
                         }`}
                       >
                         {t}
@@ -98,7 +88,7 @@ export default function CommunitySection() {
                     value={location}
                     onChange={e => setLocation(e.target.value)}
                     placeholder="e.g. Connaught Place, near Janpath..."
-                    className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
+                    className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
                   />
                 </div>
 
@@ -107,7 +97,7 @@ export default function CommunitySection() {
                   <textarea
                     rows={3}
                     placeholder="Describe what you observed..."
-                    className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm resize-none"
                   />
                 </div>
 
@@ -124,9 +114,9 @@ export default function CommunitySection() {
           </div>
 
           {/* Green Score Leaderboard */}
-          <div className="glass-card rounded-2xl p-6">
-            <h3 className="font-display font-semibold text-lg mb-2 flex items-center gap-2">
-              <Star className="w-5 h-5 text-aqi-moderate" /> Green Score Leaderboard
+          <div className="glass-card rounded-2xl p-6 shadow-sm">
+            <h3 className="font-display font-semibold text-lg mb-2 flex items-center gap-2 text-foreground">
+              <Star className="w-5 h-5 text-yellow-500" /> Green Score Leaderboard
             </h3>
             <p className="text-muted-foreground text-sm mb-6">Communities driving real change in Delhi NCR air quality.</p>
 
@@ -151,7 +141,7 @@ export default function CommunitySection() {
               ))}
             </div>
 
-            <div className="mt-4 p-4 rounded-xl bg-secondary/10 border border-secondary/20">
+            <div className="mt-4 p-4 rounded-xl bg-secondary/5 border border-secondary/20">
               <p className="text-xs text-center text-muted-foreground">
                 <span className="text-secondary font-semibold">🏅 Your Green Score: 0 pts</span>
                 <span className="block mt-1">Start reporting to earn points and help your community!</span>

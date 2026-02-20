@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AQIDashboard from "@/components/AQIDashboard";
-import AIAdvisor from "@/components/AIAdvisor";
 import VehicleCalculator from "@/components/VehicleCalculator";
 import RouteFinder from "@/components/RouteFinder";
 import TrendAnalytics from "@/components/TrendAnalytics";
@@ -15,7 +14,6 @@ const Index = () => {
       <main>
         <HeroSection />
         <AQIDashboard />
-        <AIAdvisor />
         <VehicleCalculator />
         <RouteFinder />
         <TrendAnalytics />

@@ -102,10 +102,10 @@ function generateRecommendations(age: number, region: string, health: string[]):
   ];
 }
 
-const priorityColors = {
-  high: "aqi-very-unhealthy",
-  medium: "aqi-moderate",
-  low: "aqi-good",
+const priorityConfig = {
+  high: { cls: "aqi-very-unhealthy", label: "High Priority" },
+  medium: { cls: "aqi-moderate", label: "Medium" },
+  low: { cls: "aqi-good", label: "Low" },
 };
 
 export default function AIAdvisor() {
@@ -132,156 +132,135 @@ export default function AIAdvisor() {
   };
 
   return (
-    <section id="ai-advisor" className="py-24 relative">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-0 w-72 h-72 rounded-full blur-3xl opacity-10"
-          style={{ background: "hsl(158 64% 42%)" }} />
-      </div>
+    <div className="container mx-auto px-6 py-12">
+      <div className="max-w-5xl mx-auto grid lg:grid-cols-5 gap-8">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="lg:col-span-2 glass-card rounded-2xl p-6 flex flex-col gap-5 shadow-sm">
+          <h3 className="font-display font-semibold text-lg text-foreground">Your Profile</h3>
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <Shield className="w-3 h-3 text-primary" />
-            <span className="text-primary text-xs font-semibold uppercase tracking-wider">AI Powered</span>
+          {/* Age */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-2">
+              <User className="w-4 h-4 text-primary" /> Age
+            </label>
+            <input
+              type="number"
+              min="1" max="120"
+              value={age}
+              onChange={e => setAge(e.target.value)}
+              placeholder="Enter your age"
+              className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
+            />
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-            Personalized <span className="gradient-text">Health Advisor</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-            Enter your profile and get tailored AQI survival strategies for your specific situation.
-          </p>
-        </div>
 
-        <div className="max-w-5xl mx-auto grid lg:grid-cols-5 gap-8">
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="lg:col-span-2 glass-card rounded-2xl p-6 flex flex-col gap-5">
-            <h3 className="font-display font-semibold text-lg">Your Profile</h3>
-
-            {/* Age */}
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-2">
-                <User className="w-4 h-4 text-primary" /> Age
-              </label>
-              <input
-                type="number"
-                min="1" max="120"
-                value={age}
-                onChange={e => setAge(e.target.value)}
-                placeholder="Enter your age"
-                className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
-              />
+          {/* Region */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-2">
+              <MapPin className="w-4 h-4 text-primary" /> Your Region in Delhi NCR
+            </label>
+            <div className="relative">
+              <select
+                value={region}
+                onChange={e => setRegion(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl bg-muted/40 border border-border text-foreground focus:outline-none focus:border-primary transition-colors text-sm appearance-none cursor-pointer"
+              >
+                <option value="">Select region...</option>
+                {REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
             </div>
+          </div>
 
-            {/* Region */}
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-2">
-                <MapPin className="w-4 h-4 text-primary" /> Your Region in Delhi NCR
-              </label>
-              <div className="relative">
-                <select
-                  value={region}
-                  onChange={e => setRegion(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-muted/50 border border-border text-foreground focus:outline-none focus:border-primary transition-colors text-sm appearance-none cursor-pointer"
+          {/* Health issues */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3">
+              <Heart className="w-4 h-4 text-primary" /> Health Conditions (select all that apply)
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {HEALTH_ISSUES.map(h => (
+                <button
+                  key={h}
+                  type="button"
+                  onClick={() => toggleHealth(h)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
+                    selectedHealth.includes(h)
+                      ? "bg-primary/10 border-primary/40 text-primary"
+                      : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                  }`}
                 >
-                  <option value="">Select region...</option>
-                  {REGIONS.map(r => <option key={r} value={r}>{r}</option>)}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-              </div>
+                  {h}
+                </button>
+              ))}
             </div>
-
-            {/* Health issues */}
-            <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-3">
-                <Heart className="w-4 h-4 text-primary" /> Health Conditions (select all that apply)
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {HEALTH_ISSUES.map(h => (
-                  <button
-                    key={h}
-                    type="button"
-                    onClick={() => toggleHealth(h)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border ${
-                      selectedHealth.includes(h)
-                        ? "bg-primary/20 border-primary/50 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
-                    }`}
-                  >
-                    {h}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={!age || !region || loading}
-              className="w-full py-3 rounded-xl font-semibold text-primary-foreground transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:opacity-90 hover:scale-[1.02]"
-              style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow-green)" }}
-            >
-              {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</>
-              ) : (
-                <><Shield className="w-4 h-4" /> Get My Recommendations</>
-              )}
-            </button>
-          </form>
-
-          {/* Recommendations */}
-          <div className="lg:col-span-3">
-            {!recs && !loading && (
-              <div className="h-full glass-card rounded-2xl flex flex-col items-center justify-center p-12 text-center">
-                <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 animate-float">
-                  <Wind className="w-10 h-10 text-primary" />
-                </div>
-                <p className="font-display font-semibold text-xl text-foreground mb-2">Fill Your Profile</p>
-                <p className="text-muted-foreground text-sm max-w-sm">
-                  Our AI analyzes your age, region's pollution data, and health conditions to generate personalized survival strategies.
-                </p>
-              </div>
-            )}
-
-            {loading && (
-              <div className="h-full glass-card rounded-2xl flex flex-col items-center justify-center p-12 text-center gap-4">
-                <div className="relative w-16 h-16">
-                  <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-                </div>
-                <p className="text-foreground font-medium">Analyzing your health profile...</p>
-                <p className="text-muted-foreground text-sm">Cross-referencing AQI data with medical guidelines</p>
-              </div>
-            )}
-
-            {recs && (
-              <div className="flex flex-col gap-4">
-                {recs.map(({ icon: Icon, category, tips, priority }) => (
-                  <div key={category} className="glass-card-hover rounded-xl p-5">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-4 h-4 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-display font-semibold text-sm text-foreground">{category}</h4>
-                      </div>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${priorityColors[priority]}`}>
-                        {priority}
-                      </span>
-                    </div>
-                    <ul className="flex flex-col gap-1.5">
-                      {tips.map((tip, i) => (
-                        <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
-                          <span className="text-primary mt-0.5 flex-shrink-0">→</span>
-                          {tip}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
+
+          <button
+            type="submit"
+            disabled={!age || !region || loading}
+            className="w-full py-3 rounded-xl font-semibold text-primary-foreground transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:opacity-90 hover:scale-[1.02]"
+            style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-glow-green)" }}
+          >
+            {loading ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</>
+            ) : (
+              <><Shield className="w-4 h-4" /> Get My Recommendations</>
+            )}
+          </button>
+        </form>
+
+        {/* Recommendations */}
+        <div className="lg:col-span-3">
+          {!recs && !loading && (
+            <div className="h-full glass-card rounded-2xl flex flex-col items-center justify-center p-12 text-center shadow-sm min-h-[400px]">
+              <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 animate-float">
+                <Wind className="w-10 h-10 text-primary" />
+              </div>
+              <p className="font-display font-semibold text-xl text-foreground mb-2">Fill Your Profile</p>
+              <p className="text-muted-foreground text-sm max-w-sm">
+                Our AI analyzes your age, region's pollution data, and health conditions to generate personalized survival strategies.
+              </p>
+            </div>
+          )}
+
+          {loading && (
+            <div className="h-full glass-card rounded-2xl flex flex-col items-center justify-center p-12 text-center gap-4 shadow-sm min-h-[400px]">
+              <div className="relative w-16 h-16">
+                <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+              </div>
+              <p className="text-foreground font-medium">Analyzing your health profile...</p>
+              <p className="text-muted-foreground text-sm">Cross-referencing AQI data with medical guidelines</p>
+            </div>
+          )}
+
+          {recs && (
+            <div className="flex flex-col gap-4">
+              {recs.map(({ icon: Icon, category, tips, priority }) => (
+                <div key={category} className="glass-card-hover rounded-xl p-5 shadow-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-display font-semibold text-sm text-foreground">{category}</h4>
+                    </div>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${priorityConfig[priority].cls}`}>
+                      {priorityConfig[priority].label}
+                    </span>
+                  </div>
+                  <ul className="flex flex-col gap-1.5">
+                    {tips.map((tip, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <span className="text-primary mt-0.5 flex-shrink-0">→</span>
+                        {tip}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -52,7 +52,7 @@ function getAqiLabel(cat: string) {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="glass-card rounded-lg p-3 text-sm">
+      <div className="glass-card rounded-lg p-3 text-sm shadow-lg">
         <p className="font-semibold text-foreground">{label}</p>
         <p className="text-primary">AQI: {payload[0].value}</p>
       </div>
@@ -65,19 +65,15 @@ export default function AQIDashboard() {
   const [selected, setSelected] = useState(REGIONS[1]);
 
   return (
-    <section id="dashboard" className="py-24 relative">
-      {/* Section glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: "hsl(199 80% 48%)" }} />
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="dashboard" className="py-24 bg-background border-t border-border">
+      <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 border border-secondary/20 mb-4">
             <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
             <span className="text-secondary text-xs font-semibold uppercase tracking-wider">Live Data</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 text-foreground">
             Real-Time <span className="gradient-text">AQI Dashboard</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
@@ -91,15 +87,15 @@ export default function AQIDashboard() {
             <h3 className="font-display font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
               <MapPin className="w-4 h-4 text-primary" /> Select Region
             </h3>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5">
               {REGIONS.map((r) => (
                 <button
                   key={r.name}
                   onClick={() => setSelected(r)}
                   className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                     selected.name === r.name
-                      ? "bg-primary/20 border border-primary/40 text-primary"
-                      : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                      ? "bg-primary/10 border border-primary/30 text-primary"
+                      : "hover:bg-muted text-muted-foreground hover:text-foreground border border-transparent"
                   }`}
                 >
                   <span>{r.name}</span>
@@ -114,7 +110,7 @@ export default function AQIDashboard() {
           {/* Main AQI display + pollutants */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             {/* Big AQI number */}
-            <div className="glass-card rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6 shadow-sm">
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                 <div className="flex-1">
                   <p className="text-muted-foreground text-sm font-medium mb-1 flex items-center gap-2">
@@ -128,7 +124,6 @@ export default function AQIDashboard() {
                         selected.category === "unhealthy" ? "text-aqi-unhealthy" :
                         selected.category === "moderate" ? "text-aqi-moderate" : "text-aqi-good"
                       }`}
-                      style={{ textShadow: "0 0 40px currentColor" }}
                     >
                       {selected.aqi}
                     </span>
@@ -160,7 +155,6 @@ export default function AQIDashboard() {
                       strokeWidth="8"
                       strokeLinecap="round"
                       strokeDasharray={`${(selected.aqi / 500) * 251} 251`}
-                      style={{ filter: "drop-shadow(0 0 6px currentColor)" }}
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -176,7 +170,7 @@ export default function AQIDashboard() {
             {/* Pollutant cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {POLLUTANTS.map(({ name, value, unit, icon: Icon, max }) => (
-                <div key={name} className="glass-card rounded-xl p-4">
+                <div key={name} className="glass-card rounded-xl p-4 shadow-sm">
                   <Icon className="w-4 h-4 text-secondary mb-2" />
                   <p className="text-xl font-bold font-display text-foreground">{value}</p>
                   <p className="text-xs text-muted-foreground">{name}</p>
@@ -195,7 +189,7 @@ export default function AQIDashboard() {
             </div>
 
             {/* 7-day trend */}
-            <div className="glass-card rounded-2xl p-6">
+            <div className="glass-card rounded-2xl p-6 shadow-sm">
               <h3 className="font-display font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-4">
                 7-Day AQI Trend — {selected.name}
               </h3>
@@ -203,15 +197,15 @@ export default function AQIDashboard() {
                 <AreaChart data={WEEK_DATA}>
                   <defs>
                     <linearGradient id="aqiGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(199 80% 48%)" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="hsl(199 80% 48%)" stopOpacity={0} />
+                      <stop offset="5%" stopColor="hsl(199 80% 42%)" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="hsl(199 80% 42%)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="day" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} axisLine={false} tickLine={false} domain={[100, 300]} />
                   <Tooltip content={<CustomTooltip />} />
-                  <Area type="monotone" dataKey="aqi" stroke="hsl(199 80% 48%)" strokeWidth={2} fill="url(#aqiGrad)" dot={{ fill: "hsl(199 80% 48%)", r: 4 }} />
+                  <Area type="monotone" dataKey="aqi" stroke="hsl(199 80% 42%)" strokeWidth={2} fill="url(#aqiGrad)" dot={{ fill: "hsl(199 80% 42%)", r: 4 }} />
                 </AreaChart>
               </ResponsiveContainer>
             </div>

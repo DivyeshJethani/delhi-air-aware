@@ -1,4 +1,5 @@
 import { Wind, Twitter, Github, Mail, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const LINKS = {
   Features: ["AQI Dashboard", "AI Health Advisor", "Vehicle Calculator", "Route Finder", "Trend Analytics"],
@@ -8,9 +9,7 @@ const LINKS = {
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border bg-card/30 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-
+    <footer className="border-t border-border bg-muted/30 relative overflow-hidden">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
@@ -28,13 +27,13 @@ export default function Footer() {
               AI-powered air quality intelligence for Delhi NCR residents. Breathe better, live smarter.
             </p>
             <div className="flex items-center gap-3">
-              <a href="#" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:border-primary/50 hover:text-primary transition-colors text-muted-foreground">
+              <a href="#" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:border-primary/50 hover:text-primary transition-colors text-muted-foreground bg-white">
                 <Twitter className="w-3.5 h-3.5" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:border-primary/50 hover:text-primary transition-colors text-muted-foreground">
+              <a href="#" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:border-primary/50 hover:text-primary transition-colors text-muted-foreground bg-white">
                 <Github className="w-3.5 h-3.5" />
               </a>
-              <a href="#" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:border-primary/50 hover:text-primary transition-colors text-muted-foreground">
+              <a href="#" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center hover:border-primary/50 hover:text-primary transition-colors text-muted-foreground bg-white">
                 <Mail className="w-3.5 h-3.5" />
               </a>
             </div>
@@ -58,7 +57,7 @@ export default function Footer() {
         </div>
 
         {/* AQI Scale reference */}
-        <div className="glass-card rounded-xl p-4 mb-8">
+        <div className="glass-card rounded-xl p-4 mb-8 shadow-sm">
           <p className="text-xs text-muted-foreground font-medium mb-3">AQI Reference Scale</p>
           <div className="grid grid-cols-5 gap-2">
             {[

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigation, TreePine, AlertTriangle, CheckCircle2, MapPin } from "lucide-react";
+import { Navigation, TreePine, AlertTriangle, CheckCircle2 } from "lucide-react";
 import cleanZoneImg from "@/assets/clean-zone.jpg";
 
 const AREAS = [
@@ -54,17 +54,14 @@ export default function RouteFinder() {
   const [selectedRoute, setSelectedRoute] = useState(0);
 
   return (
-    <section id="routes" className="py-24 relative">
-      <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl opacity-10 pointer-events-none"
-        style={{ background: "hsl(158 64% 42%)" }} />
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section id="routes" className="py-24 bg-background border-t border-border">
+      <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
             <Navigation className="w-3 h-3 text-primary" />
             <span className="text-primary text-xs font-semibold uppercase tracking-wider">Clean Route Finder</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4 text-foreground">
             Breathe Easy on <span className="gradient-text">Every Journey</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
@@ -82,8 +79,8 @@ export default function RouteFinder() {
               <button
                 key={i}
                 onClick={() => setSelectedRoute(i)}
-                className={`glass-card rounded-xl p-5 text-left transition-all duration-300 ${
-                  selectedRoute === i ? "border border-primary/50 bg-primary/5" : "hover:border-border"
+                className={`glass-card rounded-xl p-5 text-left transition-all duration-300 shadow-sm ${
+                  selectedRoute === i ? "border-primary/40 bg-primary/5" : "hover:border-border hover:shadow-md"
                 }`}
               >
                 <div className="flex items-start justify-between mb-3">
@@ -99,7 +96,7 @@ export default function RouteFinder() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <AlertTriangle className="w-3 h-3 text-aqi-unhealthy" />
+                    <AlertTriangle className="w-3 h-3 text-orange-400" />
                     <span>Regular: </span><AqiBadge aqi={r.regularAqi} />
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -118,14 +115,14 @@ export default function RouteFinder() {
           {/* Green zones + map visual */}
           <div className="flex flex-col gap-4">
             {/* Map placeholder with route overlay */}
-            <div className="relative glass-card rounded-2xl overflow-hidden h-56">
-              <img src={cleanZoneImg} alt="Green zone Delhi" className="w-full h-full object-cover opacity-60" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+            <div className="relative glass-card rounded-2xl overflow-hidden h-56 shadow-sm">
+              <img src={cleanZoneImg} alt="Green zone Delhi" className="w-full h-full object-cover opacity-70" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
-                <p className="font-display font-semibold text-foreground text-sm mb-1">
+                <p className="font-display font-semibold text-white text-sm mb-1">
                   🗺️ {ROUTES[selectedRoute].from} → {ROUTES[selectedRoute].to}
                 </p>
-                <p className="text-xs text-primary">{ROUTES[selectedRoute].cleanRoute}</p>
+                <p className="text-xs text-green-300">{ROUTES[selectedRoute].cleanRoute}</p>
               </div>
               {/* Route dots visual */}
               <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -143,7 +140,7 @@ export default function RouteFinder() {
             </h3>
             <div className="flex flex-col gap-2">
               {AREAS.map((a) => (
-                <div key={a.name} className="glass-card-hover rounded-xl px-4 py-3 flex items-center justify-between">
+                <div key={a.name} className="glass-card-hover rounded-xl px-4 py-3 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
                       <TreePine className="w-4 h-4 text-primary" />
